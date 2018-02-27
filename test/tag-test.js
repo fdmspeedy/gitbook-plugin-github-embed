@@ -15,6 +15,41 @@ describe('integration', function() {
             .should.eventually.equal(p(code('process: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">blk</span>) </span>{', anchor('#L13', ' (line 13)'))))
     })
 
+    it('should use showLink from book configuration', () => {
+        const blobUrl = repoUrl("blob/6bf0b7cb/index.js")
+
+        return render(`{% github_embed "${blobUrl}" %}{% endgithub_embed %}`, { pluginsConfig: { 'github-embed': { showLink: false }}})
+            .then(code => {
+            code.split(require('os').EOL).length.should.equal(38)
+         })
+        .should.eventually.be.fulfilled
+    })
+
+    it('should override showLink from book configuration', () => {
+        const blobUrl = repoUrl("blob/6bf0b7cb/index.js")
+
+        return render(`{% github_embed "${blobUrl}", showLink=true %}{% endgithub_embed %}`, { pluginsConfig: { 'github-embed': { showLink: false }}})
+            .then(code => {
+            code.split(require('os').EOL).length.should.equal(38)
+         })
+        .should.eventually.be.fulfilled
+    })
+
+    it('should use reindent from book configuration', () => {
+        const blobUrl = repoUrl("blob/6bf0b7cb/index.js#L13")
+
+        return render(`{% github_embed "${blobUrl}" %}{% endgithub_embed %}`, { pluginsConfig: { 'github-embed': { reindent: false }}})
+            .should.eventually.equal(p(code('            process: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">blk</span>) </span>{', anchor('#L13', ' (line 13)'))))
+    })
+
+    it('should override reindent from book configuration', () => {
+        const blobUrl = repoUrl("blob/6bf0b7cb/index.js#L13")
+
+        return render(`{% github_embed "${blobUrl}", reindent=true %}{% endgithub_embed %}`, { pluginsConfig: { 'github-embed': { reindent: false }}})
+            .should.eventually.equal(p(code('process: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">blk</span>) </span>{', anchor('#L13', ' (line 13)'))))
+
+    })
+
     it('should embed single line blob type url without indenting', function() {
         const blobUrl = repoUrl("blob/6bf0b7cb/index.js#L13")
 

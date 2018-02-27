@@ -12,8 +12,9 @@ global.repoUrl = path => `https://github.com/visallo/gitbook-plugin-github-embed
 global.p = str => `<p>${str}</p>`
 global.code = (str, a) => `<pre><code class="lang-js">${str}</code></pre>${a || ''}`;
 
-function render(input) {
+function render(input, config = {}) {
     return tester.builder()
+        .withBookJson(config)
         .withLocalPlugin(require('path').join(__dirname, '..'))
         .withContent(input)
         .create()

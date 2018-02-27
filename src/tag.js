@@ -6,12 +6,23 @@ const Promise = require('bluebird');
 const { Encoder } = require('node-html-encoder');
 const entityEncoder = new Encoder('entity');
 
+const DEFAULTS = {
+    showLink: true,
+    reindent: true
+};
+
 module.exports = function processGithubEmbed(block) {
     if (block.args.length !== 1) {
         throw Error('Required url parameter')
     }
     const url = block.args[0];
-    return extractSnippet(url, block.kwargs || {})
+    const options = Object.assign({},
+        DEFAULTS,
+        this.config.get('pluginsConfig.github-embed') || {},
+        block.kwargs || {}
+    );
+
+    return extractSnippet(url, options)
 }
 
 function setupGithub() {

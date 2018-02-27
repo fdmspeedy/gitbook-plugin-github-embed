@@ -1,6 +1,20 @@
 [![npm version](https://badge.fury.io/js/gitbook-plugin-github-embed.svg)](https://badge.fury.io/js/gitbook-plugin-github-embed)
 [![Build Status](https://travis-ci.org/visallo/gitbook-plugin-github-embed.svg?branch=master)](https://travis-ci.org/visallo/gitbook-plugin-github-embed)
 
+# Usage
+
+```js
+{
+    plugins: ['github-embed'],
+    pluginsConfig: {
+        'github-embed': {
+            showLink: true, // Optional, defaults to true
+            reindent: true // Optional, defaults to true
+        }
+    }
+}
+```
+
 # Embed Github Snippets into Gitbooks
 
 Embed snippet text or whole files from Github repos into a GitBook.
@@ -45,6 +59,8 @@ website: {
 
 ## Options
 
+Keywords specified in embedded snippets will override plugin configuration specified in book.js*
+
 * `showLink=true` Show a link below the embedded source back to the source file. Defaults to `true`
     
         {% github_embed "[url]", showLink=false %}{% endgithub_embed %}
@@ -67,5 +83,5 @@ Set an environment variable to avoid rate limits. [Create Token](https://github.
 
     GITBOOK_EMBED_GITHUB_API_TOKEN=[API Token]
     # or
-    GITBOOK_API_TOKEN=[API Token]
+    GITHUB_API_TOKEN=[API Token]
 
